@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Tests / coverage reports
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Environments
+.env
+.venv
