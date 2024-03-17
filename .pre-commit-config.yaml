@@ -5,7 +5,7 @@ repos:
     -   id: check-added-large-files
     -   id: check-case-conflict
     -   id: debug-statements
-    -   id: etect-private-key
+    -   id: detect-private-key
     -   id: check-json
     -   id: check-symlinks
     -   id: check-toml
