@@ -5,7 +5,7 @@ on:
     branches: [github-actions]
 
 env:
-  PYTHON_VERSION: 3.11.x
+  PYTHON_VERSION: 3.11.8
   POETRY_VERSION: 1.8.2
 
 jobs:
@@ -17,23 +17,27 @@ jobs:
       #----------------------------------------------
       - name: Check out tests folder
         uses: actions/checkout@v4
-        
+
       - name: Set up python
         id: setup-python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
+      # Poetry cache depends on OS, Python version and Poetry version.
+      - name: Cache Poetry cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-cache-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ env.POETRY_VERSION }}
       # Cache the installation of Poetry itself, e.g. the next step. This prevents the workflow
       # from installing Poetry every time, which can be slow. Note the use of the Poetry version
       # number in the cache key, and the "-0" suffix: this allows you to invalidate the cache
-      # manually if/when you want to upgrade Poetry, or if something goes wrong. This could be
-      # mildly cleaner by using an environment variable, but I don't really care.
+      # manually if/when you want to upgrade Poetry, or if something goes wrong.
       - name: cache poetry install
         uses: actions/cache@v3
         with:
           path: ~/.local
-          key: poetry-${{ env.POETRY_VERSION }}
+          key: poetry-local-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -58,8 +62,8 @@ jobs:
       # install dependencies if cache does not exist
       #----------------------------------------------
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       #----------------------------------------------
       # install your root project, if required
       #----------------------------------------------
