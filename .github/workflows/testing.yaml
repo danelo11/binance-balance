@@ -1,8 +1,10 @@
-name: CI
+name: Run tests and pre-commit
 
 on:
-  push:
-    branches: [github-actions]
+  pull_request:
+    branches:
+      - main
+      - develop
 
 env:
   PYTHON_VERSION: 3.11.8
