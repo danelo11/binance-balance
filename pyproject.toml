@@ -10,6 +10,7 @@ python = "^3.11"
 sqlalchemy = "^2.0.28"
 alembic = "^1.13.1"
 psycopg = "^3.1.18"
+pyyaml = "^6.0.1"
 
 
 [tool.poetry.group.test.dependencies]
