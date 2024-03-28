@@ -1,5 +1,5 @@
 version: 1
-disable_existing_loggers: true
+disable_existing_loggers: false
 
 formatters:
     standard:
@@ -59,17 +59,5 @@ handlers:
         backupCount: 20
         encoding: utf8
 root:
-    level: NOTSET
-    handlers: [console]
-    propagate: yes
-
-loggers:
-    <module>:
-        level: INFO
-        handlers: [console, info_file_handler, error_file_handler, critical_file_handler, debug_file_handler, warn_file_handler]
-        propagate: no
-
-    <module.x>:
-        level: DEBUG
-        handlers: [info_file_handler, error_file_handler, critical_file_handler, debug_file_handler, warn_file_handler]
-        propagate: yes
+    level: INFO
+    handlers: [console, debug_file_handler, info_file_handler, warn_file_handler, error_file_handler, critical_file_handler]
